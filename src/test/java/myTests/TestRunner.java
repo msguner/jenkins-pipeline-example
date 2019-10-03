@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 //@RunWith(Karate.class)
 
 //@KarateOptions(features = "classpath:tests/test2.feature", tags = "~@ignore")
-@KarateOptions(features = "classpath:myTests/test2.feature", tags = {"@test2_scenario1"})
+//@KarateOptions(features = "classpath:myTests/test2.feature", tags = {"@test2_scenario1"})
 public class TestRunner {
 
 //    @AfterClass
