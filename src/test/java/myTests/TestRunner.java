@@ -1,5 +1,6 @@
 package myTests;
 
+import com.intuit.karate.KarateOptions;
 import com.intuit.karate.Results;
 import com.intuit.karate.Runner;
 import net.masterthought.cucumber.Configuration;
@@ -22,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 //@RunWith(Karate.class)
 
 //@KarateOptions(features = "classpath:tests/test2.feature", tags = "~@ignore")
-//@KarateOptions(features = "classpath:tests/test2.feature", tags = {"@getJenkinsParamsAndPrint,@printBestDev,@printWorstDev"})
+@KarateOptions(features = "classpath:myTests/test2.feature", tags = {"@test2_scenario1"})
 public class TestRunner {
 
 //    @AfterClass
