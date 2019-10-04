@@ -23,7 +23,8 @@ import static org.junit.Assert.assertTrue;
 //@RunWith(Karate.class)
 
 //@KarateOptions(features = "classpath:tests/test2.feature", tags = "~@ignore")
-//@KarateOptions(features = "classpath:myTests/test2.feature", tags = {"@test2_scenario1"})
+//@KarateOptions(features = "classpath:myTests/test2.feature", tags = {"@scenario1"})
+//@KarateOptions(features = "classpath:myTests/test1.feature")
 public class TestRunner {
 
 //    @AfterClass
@@ -62,7 +63,8 @@ public class TestRunner {
 //        generateReport(karateOutputPath);
 //        assertTrue(results.getErrorMessages(), results.getFailCount() == 0);
 
-        String karateOutputPath = "target/surefire-reports";
+        //String karateOutputPath = "target/surefire-reports";
+        String karateOutputPath = "karateOutput";
         Results stats = Runner.parallel(getClass(), 5, karateOutputPath);
         generateReport(karateOutputPath);
         assertTrue("there are scenario failures", stats.getFailCount() == 0);

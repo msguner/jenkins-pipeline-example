@@ -1,6 +1,6 @@
 Feature: Second test feature
 
-  @test2_scenario1
+  @scenario1
   Scenario: Test 2 Scenario 1
     * print "Running test 2 - Scenario 1"
 
