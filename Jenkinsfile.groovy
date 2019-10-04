@@ -18,7 +18,7 @@ pipeline {
             def features = ["test1.feature", "test2.feature"]
 
             // Run the maven build
-            withEnv(["MVN_HOME=$mvnHome"]) {
+            withEnv(["MVN_HOME=${mvnHome}"]) {
                 if (isUnix()) {
                     def myCommand = "$MVN_HOME/bin/mvn clean test -Dtest=TestRunner '-Dkarate.options=--tags ${tags1} classpath:myTests/test1.feature'"
                     sh(myCommand)
