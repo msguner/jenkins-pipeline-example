@@ -1,8 +1,7 @@
 pipeline {
     agent any
-
+    def mvnHome
     stages {
-        def mvnHome
         stage('Initialize') {
             steps {
                 git 'https://github.com/msguner/jenkins-pipeline-example.git'
