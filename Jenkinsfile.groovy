@@ -1,4 +1,4 @@
-def mvnHome = ""
+def mvnHome
 
 pipeline {
     agent any
