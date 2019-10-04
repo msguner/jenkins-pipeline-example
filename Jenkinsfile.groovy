@@ -1,6 +1,8 @@
+def mvnHome
+
 pipeline {
     agent any
-    def mvnHome
+
     stages {
         stage('Initialize') {
             steps {
