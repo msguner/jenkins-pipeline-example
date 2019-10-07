@@ -21,6 +21,8 @@ def getSelectedItems(items) {
     def selectedItems = []
 
     println "********" + items
+    println "******** size" + items.size()
+    println "******** length" + items.length
 
     for (int i = 0; i < items.size(); i++) {
         def splitedItem = items[i].toString().split(':')
