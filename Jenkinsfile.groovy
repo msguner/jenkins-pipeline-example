@@ -11,7 +11,7 @@ def createMultipleChoiceParameters(array) {
     println("*** createMultipleChoiceParameters array : " + array)
 
     def createdParams = []
-    for (int i = 0; i < array.size; i++) {
+    for (int i = 0; i < array.size(); i++) {
 //        createdParams << createMultipleChoiceParameter(array[i], array[i])
         createdParams << [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: array[i]]
     }
