@@ -63,8 +63,8 @@ public class TestRunner {
 //        generateReport(karateOutputPath);
 //        assertTrue(results.getErrorMessages(), results.getFailCount() == 0);
 
-        //String karateOutputPath = "target/surefire-reports";
-        String karateOutputPath = "karateOutput";
+        String karateOutputPath = "target/surefire-reports";
+//        String karateOutputPath = "karateOutput";
         Results stats = Runner.parallel(getClass(), 5, karateOutputPath);
         generateReport(karateOutputPath);
         assertTrue("there are scenario failures", stats.getFailCount() == 0);
