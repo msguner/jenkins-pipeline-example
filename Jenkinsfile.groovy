@@ -26,7 +26,7 @@ node {
 
         println("***** features : " + features)
 
-        selectedFeature = input(id: 'userInput', message: 'Please select features',
+        selectedFeature = input(id: 'selectedFeature', message: 'Please select features',
                 parameters: [[$class: 'ChoiceParameterDefinition', choices: features, name: 'feature_input']]
         )
     }
