@@ -5,6 +5,15 @@ def createMultipleChoiceParameter(String desc, String value) {
     return [$class: 'BooleanParameterDefinition', defaultValue: true, description: desc, name: value]
 }
 
+//Parametre olarak verilen arrayin eleman sayısı kadar çoktan seçmeli parametre oluşturur.
+@NonCPS
+def createMultipleChoiceParameters(String[] array) {
+    def createdParams = []
+    for (int i = 0; i < array.length; i++) {
+        createdParams << createMultipleChoiceParameter(array[i], array[i])
+    }
+}
+
 node {
     def mvnHome
 
@@ -44,7 +53,7 @@ node {
             it.replaceAll("\\s", "")
         }
 
-        println("*** Tags : " + tags)
+        println("*** : " + selectedFeature + " tags : " + tags)
 
 //        selectedTags = tags
 
@@ -57,13 +66,16 @@ node {
 
         selectedTags = input(id: 'chooseOptions',
                 message: 'Select options',
-                parameters: [
-                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[0]],
-                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[1]],
-                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[2]],
-                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[3]]
-                ]
+                parameters: createMultipleChoiceParameters(tags)
+//                [
+//                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[0]],
+//                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[1]],
+//                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[2]],
+//                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[3]]
+//                ]
         )
+
+        println("***** SelectedTags : " + selectedTags)
     }
 
     stage('Run karate tests') {
