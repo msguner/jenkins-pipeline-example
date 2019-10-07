@@ -6,12 +6,14 @@ def createMultipleChoiceParameter(String desc, String value) {
 }
 
 //Parametre olarak verilen arrayin eleman sayısı kadar çoktan seçmeli parametre oluşturur.
-@NonCPS
 def createMultipleChoiceParameters(String[] array) {
+    println("*** createMultipleChoiceParameters : " + array)
+
     def createdParams = []
     for (int i = 0; i < array.length; i++) {
         createdParams << createMultipleChoiceParameter(array[i], array[i])
     }
+    return createdParams
 }
 
 node {
