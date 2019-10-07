@@ -10,6 +10,8 @@ node {
     stage('Select feature and tags') {
         input id: 'User_input_id', message: 'Please fill inputs', ok: 'Çalıştır', parameters: [[$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: '', filterLength: 1, filterable: false, name: 'feature_param', randomName: 'choice-parameter-11905049518345177', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get feature script error"]'], script: [classpath: [], sandbox: false, script: 'return [\'test1.feature\',\'test2.feature\']']]], [$class: 'CascadeChoiceParameter', choiceType: 'PT_MULTI_SELECT', description: '', filterLength: 1, filterable: false, name: 'tags_param', randomName: 'choice-parameter-11905049528045193', referencedParameters: 'feature_param', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get tags script error"]'], script: [classpath: [], sandbox: false, script: '''def folder = "/var/lib/jenkins/workspace/jenkins-pipeline-example/src/test/java/myTests"
 
+        println("feature param : ${feature_param}")
+
         def file = new File("${folder}/${feature_param}")
         def lines = file as String[]
         def tags = lines.findAll { it.trim().startsWith(\'@\') }.collect { 
