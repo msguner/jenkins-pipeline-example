@@ -6,6 +6,7 @@ def createMultipleChoiceParameter(String desc, String value) {
 }
 
 //Parametre olarak verilen arrayin eleman sayısı kadar çoktan seçmeli parametre oluşturur.
+@NonCPS
 def createMultipleChoiceParameters(String[] array) {
     println("*** createMultipleChoiceParameters array : " + array)
 
@@ -59,9 +60,13 @@ node {
         }
         println("*** : " + selectedFeature + " tags : " + tags)
 
+        def arrayParams = [[$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[0]],
+                           [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[1]]
+        ]
+
         selectedTags = input(id: 'chooseOptions',
                 message: 'Select options',
-                parameters: [createMultipleChoiceParameters(tags)]
+                parameters: arrayParams
 //                [
 //                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[0]],
 //                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[1]],
