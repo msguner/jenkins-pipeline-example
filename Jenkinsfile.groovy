@@ -23,13 +23,15 @@ node {
             features << filename
         }
 
-        selectedFeature = input message: 'Please select features', parameters: [string(defaultValue: '', description: '', name: features)]
+        selectedFeature = input(id: 'userInput', message: 'Please select features',
+                parameters: [[$class: 'ChoiceParameterDefinition', choices: features, name: 'feature_input']]
+        )
     }
 
     stage("Select tags") {
         def folder = "${env.WORKSPACE}/src/test/java/myTests"
 
-        def file = new File("${folder}/${Feature}")
+        def file = new File("${folder}/${selectedFeature}")
         def lines = file as String[]
         def tags = lines.findAll { it.trim().startsWith('@') }.collect {
             it.replaceAll("\\s", "")
