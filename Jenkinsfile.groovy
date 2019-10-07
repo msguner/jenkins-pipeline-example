@@ -1,3 +1,10 @@
+import com.sun.codemodel.internal.JForEach
+
+@NonCPS
+def createMultipleChoiceParameter(String desc, String value) {
+    return [$class: 'BooleanParameterDefinition', defaultValue: true, description: desc, name: value]
+}
+
 node {
     def mvnHome
 
@@ -7,18 +14,45 @@ node {
         mvnHome = tool 'maven3.6.2'
     }
 
-    stage('Select feature and tags') {
-        input id: 'User_input_id', message: 'Please fill inputs', ok: 'Çalıştır', parameters: [[$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: '', filterLength: 1, filterable: false, name: 'feature_param', randomName: 'choice-parameter-11905049518345177', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get feature script error"]'], script: [classpath: [], sandbox: false, script: 'return [\'test1.feature\',\'test2.feature\']']]], [$class: 'CascadeChoiceParameter', choiceType: 'PT_MULTI_SELECT', description: '', filterLength: 1, filterable: false, name: 'tags_param', randomName: 'choice-parameter-11905049528045193', referencedParameters: 'feature_param', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get tags script error"]'], script: [classpath: [], sandbox: false, script: '''def folder = "/var/lib/jenkins/workspace/jenkins-pipeline-example/src/test/java/myTests"
-
-        println("feature param : ${feature_param}")
-
-        def file = new File("${folder}/${feature_param}")
-        def lines = file as String[]
-        def tags = lines.findAll { it.trim().startsWith(\'@\') }.collect { 
-            it.replaceAll("\\\\s","")
+    def selectedFeature
+    stage('Select feature') {
+        final foundFiles = findFiles(glob: "src/test/java/tests/**/*.feature")
+        def features = []
+        for (int i = 0; i < foundFiles.length; i++) {
+            def filename = foundFiles[i]
+            features << filename
         }
-        
-        return tags''']]]]
+
+        selectedFeature = input message: 'Please select features', parameters: [string(defaultValue: '', description: '', name: features)]
+    }
+
+    stage("Select tags") {
+        def folder = "${env.WORKSPACE}/src/test/java/myTests"
+
+        def file = new File("${folder}/${Feature}")
+        def lines = file as String[]
+        def tags = lines.findAll { it.trim().startsWith('@') }.collect {
+            it.replaceAll("\\s", "")
+        }
+
+        println("*** tags : " + tags)
+
+        /*
+        def selectedTags = input(id: 'feature_input', message: 'Please select test tags for run).', parameters: [
+                createBooleanParameter('Tag1', tags[0]),
+                createBooleanParameter('ScenarioB', tags[1]),
+        ])
+
+
+        def selectedTags = input(id: 'chooseOptions',
+                message: 'Select options',
+                parameters: [
+                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Option A'],
+                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Option B'],
+                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Option C']
+                ]
+        )
+        */
     }
 
     stage('Run karate tests') {
