@@ -8,16 +8,10 @@ def createMultipleChoiceParameter(String desc, String value) {
 //Parametre olarak verilen arrayin eleman sayısı kadar çoktan seçmeli parametre oluşturur.
 @NonCPS
 def createMultipleChoiceParameters(array) {
-    println("*** createMultipleChoiceParameters array : " + array)
-
     def createdParams = []
     for (int i = 0; i < array.size(); i++) {
-//        createdParams << createMultipleChoiceParameter(array[i], array[i])
-        createdParams << [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: array[i]]
+        createdParams << createMultipleChoiceParameter('', array[i])
     }
-
-    println("*** createMultipleChoiceParameters createdParams : " + createdParams)
-
     return createdParams
 }
 
@@ -63,25 +57,17 @@ node {
         selectedTags = input(id: 'chooseOptions',
                 message: 'Select options',
                 parameters: createMultipleChoiceParameters(tags)
-//                [
-//                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[0]],
-//                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[1]],
-//                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[2]],
-//                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[3]]
-//                ]
         )
         println("***** SelectedTags : " + selectedTags)
     }
 
     stage('Run karate tests') {
-        def tags1 = ["scenario1", "@test1_scenario2", "test1_scenario3", "test1_scenario4"].join(",")
-        def tags2 = ["scenario1", "@test2_scenario2"].join(",")
-        def features = ["test1.feature", "test2.feature"]
+        selectedTags_mvn = selectedTags.join(",")
 
         // Run the maven build
         withEnv(["MVN_HOME=${mvnHome}"]) {
             if (isUnix()) {
-                def myCommand = "$MVN_HOME/bin/mvn clean test -Dtest=TestRunner '-Dkarate.options=--tags ${tags1} classpath:myTests/test1.feature'"
+                def myCommand = "$MVN_HOME/bin/mvn clean test -Dtest=TestRunner '-Dkarate.options=--tags ${selectedTags_mvn} classpath:myTests/${selectedFeature}'"
                 sh(myCommand)
 //                    def myCommand2 = "$MVN_HOME/bin/mvn clean test -Dtest=TestRunner '-Dkarate.options=--tags ${tags2} classpath:myTests/test2.feature'"
 //                    sh(myCommand2)
