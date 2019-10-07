@@ -19,7 +19,7 @@ node {
         final foundFiles = findFiles(glob: "src/test/java/myTests/**/*.feature")
         def features = []
         for (int i = 0; i < foundFiles.length; i++) {
-            def filename = foundFiles[i]
+            def filename = foundFiles[i].name
             println(filename)
             features << filename
         }
