@@ -16,10 +16,11 @@ node {
 
     def selectedFeature
     stage('Select feature') {
-        final foundFiles = findFiles(glob: "src/test/java/tests/**/*.feature")
+        final foundFiles = findFiles(glob: "src/test/java/myTests/**/*.feature")
         def features = []
         for (int i = 0; i < foundFiles.length; i++) {
             def filename = foundFiles[i]
+            println(filename)
             features << filename
         }
 
