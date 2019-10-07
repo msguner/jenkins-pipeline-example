@@ -15,18 +15,13 @@ def createMultipleChoiceParameters(array) {
     return createdParams
 }
 
-// Parametre olarak aldıgımız ve choice parameterdan gelen x:true,x:false formatındaki elementler parse edilir
+// Parametre olarak aldıgımız ve choice parameterdan gelen mapdeki elementler parse edilir (x:true,y:false)
 @NonCPS
 def getSelectedItems(items) {
     def selectedItems = []
 
-    println "******** getSelectedItems : " + items
-    println "******** size : " + items.size()
-
     items.each { key, val ->
-        if (val){
-            selectedItems << key
-        }
+        if (val) selectedItems << key // eger true ise selectedItems a eklenir
     }
 
     return selectedItems
@@ -83,15 +78,15 @@ node {
     }
 
     stage('Run karate tests') {
-        selectedTags_mvn = selectedTags.join(",")
+        selectedTags_mvn = selectedTags.join(",") //seçilen tagler maven için birleştirilir
 
         // Run the maven build
         withEnv(["MVN_HOME=${mvnHome}"]) {
             if (isUnix()) {
                 def myCommand = "$MVN_HOME/bin/mvn clean test -Dtest=TestRunner '-Dkarate.options=--tags ${selectedTags_mvn} classpath:myTests/${selectedFeature}'"
                 sh(myCommand)
-//                    def myCommand2 = "$MVN_HOME/bin/mvn clean test -Dtest=TestRunner '-Dkarate.options=--tags ${tags2} classpath:myTests/test2.feature'"
-//                    sh(myCommand2)
+//              def myCommand2 = "$MVN_HOME/bin/mvn clean test -Dtest=TestRunner '-Dkarate.options=--tags ${tags2} classpath:myTests/test2.feature'"
+//              sh(myCommand2)
             } else {
                 bat(/"%MVN_HOME%\bin\mvn" -Dtest=TestRunner/)
             }
