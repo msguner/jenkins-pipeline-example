@@ -5,7 +5,7 @@ def createMultipleChoiceParameter(String desc, String value) {
     return [$class: 'BooleanParameterDefinition', defaultValue: true, description: desc, name: value]
 }
 
-//Parametre olarak verilen arrayin eleman sayısı kadar çoktan seçmeli parametre oluşturur.
+// Parametre olarak verilen arrayin eleman sayısı kadar çoktan seçmeli parametre oluşturur.
 @NonCPS
 def createMultipleChoiceParameters(array) {
     def createdParams = []
@@ -13,6 +13,24 @@ def createMultipleChoiceParameters(array) {
         createdParams << createMultipleChoiceParameter('', array[i])
     }
     return createdParams
+}
+
+// Parametre olarak aldıgımız ve choice parameterdan gelen x:true,x:false formatındaki elementler parse edilir
+@NonCPS
+def getSelectedItems(items) {
+    def selectedItems = []
+
+    for (int i = 0; i < items.size(); i++) {
+        def splitedItem = items[i].split(':')
+        def itemName = splitedItem[0]
+        boolean itemSelect = splitedItem[1].toBoolean() //true or false
+
+        if (itemSelect) {
+            selectedItems << itemName
+        }
+    }
+
+    return selectedItems
 }
 
 node {
@@ -39,7 +57,7 @@ node {
         }
         println("***** Features : " + features)
 
-        selectedFeature = input(id: 'selectedFeature', message: 'Please select features',
+        selectedFeature = input(id: 'selectedFeature_input', message: 'Please select features',
                 parameters: [[$class: 'ChoiceParameterDefinition', choices: features, name: 'feature_input']]
         )
     }
@@ -54,10 +72,12 @@ node {
         }
         println("*** : " + selectedFeature + " tags : " + tags)
 
-        selectedTags = input(id: 'chooseOptions',
+        //selected olan itemlar da alınır
+        selectedTags = getSelectedItems(input(id: 'selectedTags_input',
                 message: 'Select options',
                 parameters: createMultipleChoiceParameters(tags)
-        )
+        ))
+
         println("***** SelectedTags : " + selectedTags)
     }
 
