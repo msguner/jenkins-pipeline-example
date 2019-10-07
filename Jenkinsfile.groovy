@@ -20,6 +20,8 @@ def createMultipleChoiceParameters(array) {
 def getSelectedItems(items) {
     def selectedItems = []
 
+    println "********" + items
+
     for (int i = 0; i < items.size(); i++) {
         def splitedItem = items[i].split(':')
         def itemName = splitedItem[0]
@@ -72,11 +74,13 @@ node {
         }
         println("*** : " + selectedFeature + " tags : " + tags)
 
-        //selected olan itemlar da alınır
-        selectedTags = getSelectedItems(input(id: 'selectedTags_input',
+        selectedTags = input(id: 'selectedTags_input',
                 message: 'Select options',
                 parameters: createMultipleChoiceParameters(tags)
-        ))
+        )
+
+        //selected olan tagler alınır
+        selectedTags = getSelectedItems(selectedTags)
 
         println("***** SelectedTags : " + selectedTags)
     }
