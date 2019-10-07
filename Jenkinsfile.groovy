@@ -14,6 +14,10 @@ node {
         mvnHome = tool 'maven3.6.2'
     }
 
+    stage('user interactive inputs'){
+        parameters: [[$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: '', filterLength: 1, filterable: false, name: 'feature_param', randomName: 'choice-parameter-11674263150629534', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get feature script error"]'], script: [classpath: [], sandbox: false, script: 'return [\'test1.feature\',\'test2.feature\']']]], [$class: 'CascadeChoiceParameter', choiceType: 'PT_MULTI_SELECT', description: '', filterLength: 1, filterable: false, name: 'tags_param', randomName: 'choice-parameter-11674263152945020', referencedParameters: 'feature_param', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get tags script error"]'], script: [classpath: [], sandbox: false, script: 'return ($feature_param=="test1.feature") ? [\'@scenario1_1\'] : [\'@scenario2_1\',\'@scenario2_1\']']]]]
+    }
+
     def selectedFeature
     stage('Select feature') {
         final foundFiles = findFiles(glob: "src/test/java/myTests/**/*.feature")
