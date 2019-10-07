@@ -24,24 +24,8 @@ def getSelectedItems(items) {
     println "******** size : " + items.size()
 
     items.each { key, val ->
-        println "--- Key: $key = Value $val"
-    }
-
-    for (int i = 0; i < items.size(); i++) {
-        def item = items[i]
-        println "item : " + item
-
-        def splitedItem = item.toString().split(':')
-        println "splitedItem : " + splitedItem
-
-        def itemName = splitedItem[0]
-        println "itemName : " + itemName
-
-        boolean itemSelect = splitedItem[1].toBoolean() //true or false
-        println "itemSelect : " + itemSelect
-
-        if (itemSelect) {
-            selectedItems << itemName
+        if (val){
+            selectedItems << key
         }
     }
 
