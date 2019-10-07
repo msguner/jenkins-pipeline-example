@@ -6,14 +6,17 @@ def createMultipleChoiceParameter(String desc, String value) {
 }
 
 //Parametre olarak verilen arrayin eleman sayısı kadar çoktan seçmeli parametre oluşturur.
-@NonCPS
 def createMultipleChoiceParameters(String[] array) {
-    println("*** createMultipleChoiceParameters : " + array)
+    println("*** createMultipleChoiceParameters array : " + array)
 
     def createdParams = []
     for (int i = 0; i < array.length; i++) {
-        createdParams << createMultipleChoiceParameter(array[i], array[i])
+//        createdParams << createMultipleChoiceParameter(array[i], array[i])
+        createdParams << [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: array[i]]
     }
+
+    println("*** createMultipleChoiceParameters createdParams : " + createdParams)
+
     return createdParams
 }
 
