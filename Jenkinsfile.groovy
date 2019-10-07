@@ -60,9 +60,11 @@ node {
         }
         println("*** : " + selectedFeature + " tags : " + tags)
 
-        def arrayParams = [[$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[0]],
-                           [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[1]]
-        ]
+//        def arrayParams = [[$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[0]],
+//                           [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[1]]
+//        ]
+        def arrayParams = createMultipleChoiceParameters(tags)
+        println("*** arrayParams : " + arrayParams)
 
         selectedTags = input(id: 'chooseOptions',
                 message: 'Select options',
