@@ -14,8 +14,9 @@ node {
         mvnHome = tool 'maven3.6.2'
     }
 
-    stage('user interactive inputs'){
-        input id: 'User_input_id', message: 'Please select feature and tags', ok: 'Devam', parameters: [[$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: '', filterLength: 1, filterable: false, name: 'feature_param', randomName: 'choice-parameter-11912031710581742', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get feature script error"]'], script: [classpath: [], sandbox: false, script: 'return [\'test1.feature\',\'test2.feature\']']]], [$class: 'CascadeChoiceParameter', choiceType: 'PT_CHECKBOX', description: '', filterLength: 1, filterable: false, name: 'tags_param', randomName: 'choice-parameter-11912031712931182', referencedParameters: 'feature_param', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get tags script error"]'], script: [classpath: [], sandbox: false, script: 'return (feature_param=="test1.feature") ? [\'@scenario1_1\'] : [\'@scenario2_1\',\'@scenario2_2\']']]]]    }
+    stage('user interactive inputs') {
+        input id: 'User_input_id', message: 'Please select feature and tags', ok: 'Devam', parameters: [[$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: '', filterLength: 1, filterable: false, name: 'feature_param', randomName: 'choice-parameter-11912031710581742', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get feature script error"]'], script: [classpath: [], sandbox: false, script: 'return [\'test1.feature\',\'test2.feature\']']]], [$class: 'CascadeChoiceParameter', choiceType: 'PT_CHECKBOX', description: '', filterLength: 1, filterable: false, name: 'tags_param', randomName: 'choice-parameter-11912031712931182', referencedParameters: 'feature_param', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get tags script error"]'], script: [classpath: [], sandbox: false, script: 'return (feature_param=="test1.feature") ? [\'@scenario1_1\'] : [\'@scenario2_1\',\'@scenario2_2\']']]]]
+    }
 
     def selectedFeature
     stage('Select feature') {
@@ -23,11 +24,10 @@ node {
         def features = []
         for (int i = 0; i < foundFiles.length; i++) {
             def filename = foundFiles[i].name
-            println(filename)
             features << filename
         }
 
-        println("***** features : " + features)
+        println("***** Features : " + features)
 
         selectedFeature = input(id: 'selectedFeature', message: 'Please select features',
                 parameters: [[$class: 'ChoiceParameterDefinition', choices: features, name: 'feature_input']]
@@ -44,26 +44,26 @@ node {
             it.replaceAll("\\s", "")
         }
 
-        println("*** tags : " + tags)
+        println("*** Tags : " + tags)
 
-        selectedTags = tags
+//        selectedTags = tags
 
         /*
         def selectedTags = input(id: 'feature_input', message: 'Please select test tags for run).', parameters: [
                 createBooleanParameter('Tag1', tags[0]),
                 createBooleanParameter('ScenarioB', tags[1]),
         ])
+        */
 
-
-        def selectedTags = input(id: 'chooseOptions',
+        selectedTags = input(id: 'chooseOptions',
                 message: 'Select options',
                 parameters: [
-                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Option A'],
-                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Option B'],
-                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Option C']
+                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[0]],
+                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[1]],
+                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[2]],
+                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[3]]
                 ]
         )
-        */
     }
 
     stage('Run karate tests') {
