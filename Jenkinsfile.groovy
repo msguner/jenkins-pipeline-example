@@ -6,6 +6,7 @@ def createMultipleChoiceParameter(String desc, String value) {
 }
 
 //Parametre olarak verilen arrayin eleman sayısı kadar çoktan seçmeli parametre oluşturur.
+@NonCPS
 def createMultipleChoiceParameters(String[] array) {
     println("*** createMultipleChoiceParameters : " + array)
 
@@ -18,6 +19,8 @@ def createMultipleChoiceParameters(String[] array) {
 
 node {
     def mvnHome
+    def selectedFeature
+    def selectedTags
 
     stage('Initialize') {
         git 'https://github.com/msguner/jenkins-pipeline-example.git'
@@ -29,7 +32,6 @@ node {
 //        input id: 'User_input_id', message: 'Please select feature and tags', ok: 'Devam', parameters: [[$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: '', filterLength: 1, filterable: false, name: 'feature_param', randomName: 'choice-parameter-11912031710581742', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get feature script error"]'], script: [classpath: [], sandbox: false, script: 'return [\'test1.feature\',\'test2.feature\']']]], [$class: 'CascadeChoiceParameter', choiceType: 'PT_CHECKBOX', description: '', filterLength: 1, filterable: false, name: 'tags_param', randomName: 'choice-parameter-11912031712931182', referencedParameters: 'feature_param', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get tags script error"]'], script: [classpath: [], sandbox: false, script: 'return (feature_param=="test1.feature") ? [\'@scenario1_1\'] : [\'@scenario2_1\',\'@scenario2_2\']']]]]
 //    }
 
-    def selectedFeature
     stage('Select feature') {
         final foundFiles = findFiles(glob: "src/test/java/myTests/**/*.feature")
         def features = []
@@ -37,7 +39,6 @@ node {
             def filename = foundFiles[i].name
             features << filename
         }
-
         println("***** Features : " + features)
 
         selectedFeature = input(id: 'selectedFeature', message: 'Please select features',
@@ -45,7 +46,6 @@ node {
         )
     }
 
-    def selectedTags
     stage("Select tags") {
         def folder = "${env.WORKSPACE}/src/test/java/myTests"
 
@@ -54,21 +54,11 @@ node {
         def tags = lines.findAll { it.trim().startsWith('@') }.collect {
             it.replaceAll("\\s", "")
         }
-
         println("*** : " + selectedFeature + " tags : " + tags)
-
-//        selectedTags = tags
-
-        /*
-        def selectedTags = input(id: 'feature_input', message: 'Please select test tags for run).', parameters: [
-                createBooleanParameter('Tag1', tags[0]),
-                createBooleanParameter('ScenarioB', tags[1]),
-        ])
-        */
 
         selectedTags = input(id: 'chooseOptions',
                 message: 'Select options',
-                parameters: createMultipleChoiceParameters(tags)
+                parameters: [createMultipleChoiceParameters(tags)]
 //                [
 //                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[0]],
 //                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[1]],
@@ -76,7 +66,6 @@ node {
 //                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: tags[3]]
 //                ]
         )
-
         println("***** SelectedTags : " + selectedTags)
     }
 
