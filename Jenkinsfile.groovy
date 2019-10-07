@@ -14,9 +14,9 @@ node {
         mvnHome = tool 'maven3.6.2'
     }
 
-    stage('user interactive inputs') {
-        input id: 'User_input_id', message: 'Please select feature and tags', ok: 'Devam', parameters: [[$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: '', filterLength: 1, filterable: false, name: 'feature_param', randomName: 'choice-parameter-11912031710581742', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get feature script error"]'], script: [classpath: [], sandbox: false, script: 'return [\'test1.feature\',\'test2.feature\']']]], [$class: 'CascadeChoiceParameter', choiceType: 'PT_CHECKBOX', description: '', filterLength: 1, filterable: false, name: 'tags_param', randomName: 'choice-parameter-11912031712931182', referencedParameters: 'feature_param', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get tags script error"]'], script: [classpath: [], sandbox: false, script: 'return (feature_param=="test1.feature") ? [\'@scenario1_1\'] : [\'@scenario2_1\',\'@scenario2_2\']']]]]
-    }
+//    stage('user interactive inputs') {
+//        input id: 'User_input_id', message: 'Please select feature and tags', ok: 'Devam', parameters: [[$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: '', filterLength: 1, filterable: false, name: 'feature_param', randomName: 'choice-parameter-11912031710581742', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get feature script error"]'], script: [classpath: [], sandbox: false, script: 'return [\'test1.feature\',\'test2.feature\']']]], [$class: 'CascadeChoiceParameter', choiceType: 'PT_CHECKBOX', description: '', filterLength: 1, filterable: false, name: 'tags_param', randomName: 'choice-parameter-11912031712931182', referencedParameters: 'feature_param', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["Get tags script error"]'], script: [classpath: [], sandbox: false, script: 'return (feature_param=="test1.feature") ? [\'@scenario1_1\'] : [\'@scenario2_1\',\'@scenario2_2\']']]]]
+//    }
 
     def selectedFeature
     stage('Select feature') {
