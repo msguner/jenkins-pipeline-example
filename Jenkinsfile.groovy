@@ -27,6 +27,9 @@ def getSelectedItems(items) {
         def item = items[i]
         println "item : " + item
 
+        def item2 = items.get(i)
+        println "item2 : " + item2
+
         def splitedItem = item.toString().split(':')
         println "splitedItem : " + splitedItem
 
