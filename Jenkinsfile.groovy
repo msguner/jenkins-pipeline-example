@@ -23,7 +23,7 @@ def getSelectedItems(items) {
     println "********" + items
 
     for (int i = 0; i < items.size(); i++) {
-        def splitedItem = items[i].split(':')
+        def splitedItem = items[i].toString().split(':')
         def itemName = splitedItem[0]
         boolean itemSelect = splitedItem[1].toBoolean() //true or false
 
