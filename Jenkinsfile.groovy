@@ -27,6 +27,9 @@ def getSelectedItems(items) {
         def itemName = splitedItem[0]
         boolean itemSelect = splitedItem[1].toBoolean() //true or false
 
+        println "splitedItem : " + splitedItem
+        println "itemName : " + itemName + " --- itemSelect : " + itemSelect
+
         if (itemSelect) {
             selectedItems << itemName
         }
