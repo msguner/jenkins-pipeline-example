@@ -23,6 +23,8 @@ node {
             features << filename
         }
 
+        println("***** features : " + features)
+
         selectedFeature = input(id: 'userInput', message: 'Please select features',
                 parameters: [[$class: 'ChoiceParameterDefinition', choices: features, name: 'feature_input']]
         )
