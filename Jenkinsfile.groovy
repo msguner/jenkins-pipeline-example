@@ -31,6 +31,7 @@ node {
         )
     }
 
+    def selectedTags
     stage("Select tags") {
         def folder = "${env.WORKSPACE}/src/test/java/myTests"
 
@@ -41,6 +42,8 @@ node {
         }
 
         println("*** tags : " + tags)
+
+        selectedTags = tags
 
         /*
         def selectedTags = input(id: 'feature_input', message: 'Please select test tags for run).', parameters: [
