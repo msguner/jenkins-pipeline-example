@@ -23,12 +23,13 @@ def getSelectedItems(items) {
     println "******** getSelectedItems : " + items
     println "******** size : " + items.size()
 
+    items.each { key, val ->
+        println "--- Key: $key = Value $val"
+    }
+
     for (int i = 0; i < items.size(); i++) {
         def item = items[i]
         println "item : " + item
-
-        def item2 = items.get(i)
-        println "item2 : " + item2
 
         def splitedItem = item.toString().split(':')
         println "splitedItem : " + splitedItem
